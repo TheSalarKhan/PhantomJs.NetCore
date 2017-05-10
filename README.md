@@ -4,7 +4,7 @@
 
 # Example
   For a simple example have a look at Example.cs
-  Do not forget to include the PhantomJSRoot folder in your project. The location of this folder is required when initializing the PdfGenerator object.
+  * Do not forget to include the PhantomJSRoot folder in your project. The path to this directory is required when initializing the PdfGenerator object.
 
 # Contributions
   I made this library because There were no easy solutions for generating PDF on .NET Core especially on Linux. 
