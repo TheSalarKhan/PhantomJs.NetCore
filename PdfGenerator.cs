@@ -69,6 +69,13 @@ namespace PhantomJs.NetCore {
             return filename;
         }
 
+        /**
+            This function takes in an 'html' string and generates a pdf
+            containing its rendered version, and writes the pdf to the passed
+            output 'outputFolder'.
+
+            
+         */
         public string GeneratePdf(string html, string outputFolder) {
 
             if(!Directory.Exists(outputFolder)) {
