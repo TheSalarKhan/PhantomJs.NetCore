@@ -79,7 +79,7 @@ namespace PhantomJs.NetCore {
             string phantomExeToUse =
                 (this.Platform == OS.LINUX) ? "linux64_phantomjs.exe" :
                 (this.Platform == OS.WINDOWS) ? "windows_phantomjs.exe" :
-                "";
+                "osx_phantomjs.exe";
             
             // Write the passed html in a file.
             string htmlFileName = WriteHtmlToTempFile(html);
