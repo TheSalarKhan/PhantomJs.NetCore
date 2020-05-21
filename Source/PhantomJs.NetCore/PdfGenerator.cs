@@ -1,3 +1,4 @@
+using PhantomJs.NetCore.Enums;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -20,14 +21,14 @@ namespace PhantomJs.NetCore
     /// output 'outputFolder'.
     /// </summary>
     /// <param name="html">A string with html page contents.</param>
-    /// <param name="outputFolder">The folder where the file will be created.</param>
+    /// <param name="outputFolder">The folder where the file will be created.
+    /// If the output folder is null, empty or doesn't exist, the current app
+    /// directory will be used.</param>
     /// <returns>The absolute path to the new file created.</returns>
-    public string GeneratePdf(string html, string outputFolder)
+    public string GeneratePdf(string html, string outputFolder = null, PdfGeneratorParams param = null)
     {
-      if (!Directory.Exists(outputFolder))
-      {
-        throw new DirectoryNotFoundException("The output folder is not a valid directory!");
-      }
+      if (string.IsNullOrEmpty(outputFolder) || !Directory.Exists(outputFolder))
+        outputFolder = PhantomRootFolder;
 
       string pdfFileName;
       var htmlFileName = WriteHtmlToTempFile(html);
@@ -37,7 +38,7 @@ namespace PhantomJs.NetCore
         var exeToUse = GetOsExecutableName();
         WriteResourcesToDisk(exeToUse);
         WriteResourcesToDisk(Consts.Rasterize);
-        pdfFileName = ExecutePhantomJs(exeToUse, htmlFileName, outputFolder);
+        pdfFileName = ExecutePhantomJs(exeToUse, htmlFileName, outputFolder, param);
       }
       finally
       {
@@ -54,7 +55,7 @@ namespace PhantomJs.NetCore
 
     private string WriteHtmlToTempFile(string html)
     {
-      var filename = Path.GetRandomFileName();
+      var filename = Path.GetRandomFileName() + ".html";
       var absolutePath = Path.Combine(PhantomRootFolder, filename);
 
       File.WriteAllText(absolutePath, html);
@@ -62,8 +63,13 @@ namespace PhantomJs.NetCore
       return filename;
     }
 
-    private string ExecutePhantomJs(string phantomJsExeToUse, string inputFileName, string outputFolder)
+    private string ExecutePhantomJs(string phantomJsExeToUse, string inputFileName, string outputFolder, PdfGeneratorParams param)
     {
+      if (param == null) param = new PdfGeneratorParams();
+
+      var layout = param.PageWidth > 0 && param.PageHeight > 0
+        ? $"{param.PageWidth}{param.DimensionUnit.GetValue()}*{param.PageHeight}{param.DimensionUnit.GetValue()}"
+        : param.Format.ToString();
       var outputFileName = Path.GetFileNameWithoutExtension(inputFileName);
       var outputFilePath = Path.Combine(outputFolder, $"{outputFileName}.pdf");
       var exePath = Path.Combine(PhantomRootFolder, phantomJsExeToUse);
@@ -71,8 +77,10 @@ namespace PhantomJs.NetCore
       var startInfo = new ProcessStartInfo
       {
         FileName = exePath,
-        WorkingDirectory = outputFolder,
-        Arguments = $@"rasterize.js ""{inputFileName}"" ""{outputFilePath}"" ""A4"" ",
+        WorkingDirectory = PhantomRootFolder,
+        Arguments = $@"rasterize.js ""{inputFileName}"" ""{outputFilePath}"" ""{layout}"" {param.ZoomFactor}",
+          // TODO: include these parameters:
+          //+ $@" ""{param.ZoomFactor}"" ""{param.Orientation.GetValue()}"" ",
         UseShellExecute = false,
         CreateNoWindow = true
       };

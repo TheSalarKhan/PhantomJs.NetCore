@@ -16,7 +16,6 @@ namespace Sandbox
 <!DOCTYPE html>
 <html>
 <head>
-
 </head>
 <body>
     <h1>Hello World!</h1>
@@ -28,7 +27,7 @@ namespace Sandbox
       var pathOftheGeneratedPdf = generator.GeneratePdf(htmlToConvert, currentDirectory);
 
       Console.WriteLine("Pdf generated at: " + pathOftheGeneratedPdf);
-      Console.ReadKey();
+      Console.ReadLine();
     }
   }
 }
