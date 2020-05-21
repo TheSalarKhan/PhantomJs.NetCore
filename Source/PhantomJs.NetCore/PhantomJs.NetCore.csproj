@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\..\Dist</OutputPath>
+    <DocumentationFile>..\..\Dist\PhantomJs.NetCore.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\Resources\linux64_phantomjs.exe" Link="Resources\linux64_phantomjs.exe" />
+    <EmbeddedResource Include="..\..\Resources\osx_phantomjs.exe" Link="Resources\osx_phantomjs.exe" />
+    <EmbeddedResource Include="..\..\Resources\rasterize.js" Link="Resources\rasterize.js" />
+    <EmbeddedResource Include="..\..\Resources\windows_phantomjs.exe" Link="Resources\windows_phantomjs.exe" />
+  </ItemGroup>
+
+</Project>

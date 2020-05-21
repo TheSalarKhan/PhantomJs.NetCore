@@ -1,3 +1,11 @@
+.vs
 .vscode/
 bin/
 obj/
+[Dd]ebug
+[Rr]elease
+[Dd]ist
+*.dll
+*.deps.json
+*.pdb
+*.user
