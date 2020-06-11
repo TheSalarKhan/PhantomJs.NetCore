@@ -5,11 +5,12 @@ VisualStudioVersion = 16.0.30114.128
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sandbox", "Source\Sandbox\Sandbox.csproj", "{63F1A209-B24F-43A0-9BF8-7B95BB1599E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhantomJs.NetCore", "Source\PhantomJs.NetCore\PhantomJs.NetCore.csproj", "{FA17C1B7-E4E3-4067-9DD9-3144F7E8BAD8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhantomJs.NetCore", "Source\PhantomJs.NetCore\PhantomJs.NetCore.csproj", "{FA17C1B7-E4E3-4067-9DD9-3144F7E8BAD8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7471AAB8-CEDC-4FF9-8F89-8AB6DEA72036}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
 EndProject
