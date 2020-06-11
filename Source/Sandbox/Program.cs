@@ -16,6 +16,16 @@ namespace Sandbox
 <!DOCTYPE html>
 <html>
 <head>
+<style>
+// Had to use this to fix the font sizing problem in linux.
+html {
+    height: 0;
+    transform-origin: 0 0;
+    -webkit-transform-origin: 0 0;
+    transform: scale(0.53);
+    -webkit-transform: scale(0.53);
+}
+</style>
 </head>
 <body>
     <h1>Hello World!</h1>
