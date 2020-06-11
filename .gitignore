@@ -9,3 +9,4 @@ obj/
 *.deps.json
 *.pdb
 *.user
+*.exe

@@ -2,6 +2,7 @@ using PhantomJs.NetCore.Enums;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
@@ -22,6 +23,7 @@ namespace PhantomJs.NetCore
     /// </summary>
     /// <param name="html">A string with html page contents.</param>
     /// <param name="outputFolder">The folder where the file will be created.
+    /// <param name="param">An instance of <c>PdfGeneratorParams</c> class.</param>
     /// If the output folder is null, empty or doesn't exist, the current app
     /// directory will be used.</param>
     /// <returns>The absolute path to the new file created.</returns>
@@ -96,8 +98,9 @@ namespace PhantomJs.NetCore
       if (File.Exists(exeFile)) return;
 
       var assembly = Assembly.GetExecutingAssembly();
-      var resourcePath = $"PhantomJs.NetCore.Resources.{exeFile}";
-      var outputPath = Path.Combine(PhantomRootFolder, exeFile);
+      var zipExeFile = $"{Path.GetFileNameWithoutExtension(exeFile)}.zip";
+      var resourcePath = $"PhantomJs.NetCore.Resources.{zipExeFile}";
+      var outputPath = Path.Combine(PhantomRootFolder, zipExeFile);
 
       using (var stream = assembly.GetManifestResourceStream(resourcePath))
       using (var binaryReader = new BinaryReader(stream))
@@ -108,6 +111,9 @@ namespace PhantomJs.NetCore
         stream.Read(byteArray, 0, byteArray.Length);
         binaryWriter.Write(byteArray);
       }
+
+      ZipFile.ExtractToDirectory(zipExeFile, PhantomRootFolder);
+      File.Delete(zipExeFile);
     }
 
   }

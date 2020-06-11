@@ -27,7 +27,8 @@ namespace Sandbox
       var pathOftheGeneratedPdf = generator.GeneratePdf(htmlToConvert, currentDirectory);
 
       Console.WriteLine("Pdf generated at: " + pathOftheGeneratedPdf);
-      Console.ReadLine();
+      Console.WriteLine("Press any key to close...");
+      Console.ReadKey();
     }
   }
 }
