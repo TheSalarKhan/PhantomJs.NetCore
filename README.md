@@ -1,6 +1,6 @@
 # Generate PDF from HTML in .NET CORE!
 
- This project uses [PhantomJs](http://phantomjs.org) executables to generated pdf from html strings.
+ This project uses [PhantomJs](http://phantomjs.org) executables to generate pdf from html strings.
  This library should work on Windows, Linux and OSX, it checks for the platform on the fly and uses the appropriate executable.
 
 | Package | NuGet Stable |  Downloads | 

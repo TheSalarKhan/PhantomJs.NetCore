@@ -10,6 +10,8 @@
     <RepositoryUrl>https://github.com/JoaoLucasGtr/PhantomJs.NetCore</RepositoryUrl>
     <PackageTags>c# netcore pdf html</PackageTags>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageVersion>1.0.1</PackageVersion>
+    <AssemblyVersion>1.0.1</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
