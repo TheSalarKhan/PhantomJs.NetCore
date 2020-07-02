@@ -1,6 +1,6 @@
-﻿using PhantomJs.NetCore;
-using System;
+﻿using System;
 using System.IO;
+using PhantomJs.NetCore;
 
 namespace Sandbox
 {

@@ -1,7 +1,7 @@
 ﻿namespace PhantomJs.NetCore.Enums
 {
   /// <summary>
-  /// Supported format options.
+  ///   Supported format options.
   /// </summary>
   public enum Formats
   {
