@@ -1,10 +1,11 @@
-using PhantomJs.NetCore.Enums;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Reflection;
 using System.Runtime.InteropServices;
+
+using PhantomJs.NetCore.Enums;
 
 namespace PhantomJs.NetCore
 {
@@ -65,6 +66,22 @@ namespace PhantomJs.NetCore
       return filename;
     }
 
+    private void SetFilePermission(string fileName)
+    {
+      var startInfo = new ProcessStartInfo
+      {
+        FileName = "/bin/bash",
+        WorkingDirectory = PhantomRootFolder,
+        Arguments = $@"-c ""chmod +x {fileName}""",
+        UseShellExecute = false,
+        CreateNoWindow = true
+      };
+
+      var proc = new Process { StartInfo = startInfo };
+      proc.Start();
+      proc.WaitForExit();
+    }
+
     private string ExecutePhantomJs(string phantomJsExeToUse, string inputFileName, string outputFolder, PdfGeneratorParams param)
     {
       if (param == null) param = new PdfGeneratorParams();
@@ -75,6 +92,14 @@ namespace PhantomJs.NetCore
       var outputFileName = Path.GetFileNameWithoutExtension(inputFileName);
       var outputFilePath = Path.Combine(outputFolder, $"{outputFileName}.pdf");
       var exePath = Path.Combine(PhantomRootFolder, phantomJsExeToUse);
+
+      // On OSX and - maybe - Linux (TODO clarify), we have to add the executable bit to
+      // file permissions of our unzipped exe.
+      if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)
+        || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+      {
+        SetFilePermission(phantomJsExeToUse);
+      }
 
       var startInfo = new ProcessStartInfo
       {
@@ -93,18 +118,20 @@ namespace PhantomJs.NetCore
       return outputFilePath;
     }
 
-    private void WriteResourcesToDisk(string exeFile)
+    private void WriteResourcesToDisk(string fileName)
     {
-      if (File.Exists(exeFile)) return;
+      var zipFileName = $"{Path.GetFileNameWithoutExtension(fileName)}.zip";
+      var zipFilePath = Path.Combine(PhantomRootFolder, zipFileName);
+      var unzippedFilePath = Path.Combine(PhantomRootFolder, fileName);
+
+      if (File.Exists(zipFilePath) || File.Exists(unzippedFilePath)) return;
 
       var assembly = Assembly.GetExecutingAssembly();
-      var zipExeFile = $"{Path.GetFileNameWithoutExtension(exeFile)}.zip";
-      var resourcePath = $"PhantomJs.NetCore.Resources.{zipExeFile}";
-      var outputPath = Path.Combine(PhantomRootFolder, zipExeFile);
+      var resourcePath = $"PhantomJs.NetCore.Resources.{zipFileName}";
 
       using (var stream = assembly.GetManifestResourceStream(resourcePath))
       using (var binaryReader = new BinaryReader(stream))
-      using (var fileStream = new FileStream(outputPath, FileMode.Create))
+      using (var fileStream = new FileStream(zipFilePath, FileMode.Create))
       using (var binaryWriter = new BinaryWriter(fileStream))
       {
         byte[] byteArray = new byte[stream.Length];
@@ -112,8 +139,8 @@ namespace PhantomJs.NetCore
         binaryWriter.Write(byteArray);
       }
 
-      ZipFile.ExtractToDirectory(zipExeFile, PhantomRootFolder);
-      File.Delete(zipExeFile);
+      ZipFile.ExtractToDirectory(zipFilePath, PhantomRootFolder);
+      File.Delete(zipFilePath);
     }
 
   }

@@ -11,3 +11,4 @@ obj/
 *.pdb
 *.user
 *.exe
+.DS_Store
