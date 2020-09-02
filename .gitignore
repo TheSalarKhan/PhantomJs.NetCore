@@ -1,3 +1,14 @@
+.vs
 .vscode/
+.idea/
 bin/
 obj/
+[Dd]ebug
+[Rr]elease
+[Dd]ist
+*.dll
+*.deps.json
+*.pdb
+*.user
+*.exe
+.DS_Store
