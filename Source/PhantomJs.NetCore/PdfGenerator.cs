@@ -14,7 +14,7 @@ namespace PhantomJs.NetCore
   /// </summary>
   public class PdfGenerator
   {
-    private string PhantomRootFolder { get; } = AppDomain.CurrentDomain.BaseDirectory;
+    public string PhantomRootFolder { get; set; } = AppDomain.CurrentDomain.BaseDirectory;
 
     /// <summary>
     ///   This function takes in an 'html' string and generates a pdf
